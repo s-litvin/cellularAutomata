@@ -5,10 +5,10 @@ var fieldX = 600;
 var fieldY = 400;
 var liveCells = 0;
 var slider;
-var randomRate = 75;
+var randomRate = 0;
 var randomLifeCnt = 0;
-
 var resolution = 5;
+
 
 function setup() {
     createCanvas(600, 450);
@@ -16,7 +16,6 @@ function setup() {
     nextPop = createPop();
 
     randomizePopulation();
-
 
     translate(0, 400);
     button = createButton('BOOM!');
@@ -26,7 +25,6 @@ function setup() {
     slider = createSlider(0, 100, randomRate);
     slider.position(120, 420);
     slider.style('width', '120px');
-
 
     //
     slider4 = createSlider(0, 50, 47);
@@ -52,12 +50,12 @@ function setup() {
 }
 
 function draw() {
+
     frame++;
     if (frame < 50 - slider4.value()) {
         return true;
     }
     frame = 0;
-
 
     background(slider1.value(), slider2.value(), slider3.value());
 
@@ -89,6 +87,20 @@ function randomizePopulation() {
     }
 }
 
+function setGlider() {
+    for (var i = 0; i < fieldY / resolution; i++) {
+        for (var j = 0; j < fieldX / resolution; j++) {
+            population[i][j] = 0;
+        }
+    }   
+
+    population[2][6] = 1;
+    population[3][7] = 1;
+    population[3][8] = 1;
+    population[2][8] = 1;
+    population[1][8] = 1;
+}
+
 function renderPopulation() {
     var cntLive = 0;
     for (var i = 0; i < fieldY / resolution; i++) {
@@ -107,7 +119,7 @@ function renderPopulation() {
                     && mouseY > (i * resolution) && mouseY < (i * resolution + resolution)) {
 
                     randomLife(population, j, i);
-                    // nextPop[i][j] = cell;
+
                 }
             }
 
@@ -130,6 +142,7 @@ function renderPopulation() {
 
     liveCells = cntLive;
     population = nextPop;
+    nextPop = createPop();
 }
 
 function countNeighbors(population, x, y) {
@@ -144,8 +157,8 @@ function countNeighbors(population, x, y) {
             sum += population[row][col];
         }
     }
-
-    return sum - population[i][j];
+    
+    return sum - population[y][x];
 }
 
 function createPop() {
@@ -168,5 +181,3 @@ function randomLife(population, x, y) {
         }
     }
 }
-
-
