@@ -12,6 +12,8 @@ var resolution = 5;
 
 function setup() {
     createCanvas(600, 450);
+    noStroke();
+
     population = createPop();
     nextPop = createPop();
 
@@ -119,7 +121,7 @@ function renderPopulation() {
 
             if (cell == 1) {
                 fill(151, 226, 138);
-                rect(j * resolution, i * resolution, resolution, resolution);
+                ellipse(j * resolution, i * resolution, resolution, resolution);
             }
 
             var neighbors = countNeighbors(population, j, i);
