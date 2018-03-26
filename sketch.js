@@ -18,9 +18,17 @@ function setup() {
     randomizePopulation();
 
     translate(0, 400);
-    button = createButton('BOOM!');
-    button.position(19, 425);
+    button = createButton('RST');
+    button.position(9, 425);
     button.mousePressed(randomizePopulation);
+
+    button = createButton('CLS');
+    button.position(58, 425);
+    button.mousePressed(function() { population = createPop(); nextPop = createPop();});
+
+    button = createButton('Glider');
+    button.position(410, 425);
+    button.mousePressed(setGlider);
 
     slider = createSlider(0, 100, randomRate);
     slider.position(120, 420);
@@ -88,17 +96,19 @@ function randomizePopulation() {
 }
 
 function setGlider() {
-    for (var i = 0; i < fieldY / resolution; i++) {
-        for (var j = 0; j < fieldX / resolution; j++) {
-            population[i][j] = 0;
-        }
-    }   
+    
+    var i = floor(2 + random(fieldY/resolution - 10));
+    var j = floor(2 + random(fieldX/resolution - 10));
 
-    population[2][6] = 1;
-    population[3][7] = 1;
-    population[3][8] = 1;
-    population[2][8] = 1;
-    population[1][8] = 1;
+    population[i - 1][j - 1] = 0;
+    population[i - 1][j] = 1;
+    population[i - 1][j - 1] = 0;
+    population[i][j - 1] = 0;
+    population[i][j] = 0;
+    population[i][j + 1] = 1;
+    population[i + 1][j - 1] = 1;
+    population[i + 1][j] = 1;
+    population[i + 1][j + 1] = 1;
 }
 
 function renderPopulation() {
@@ -164,7 +174,10 @@ function countNeighbors(population, x, y) {
 function createPop() {
     var tmp = [];
     for (var i = 0; i < fieldY / resolution; i++) {
-        tmp[i] = new Array(fieldX / resolution);
+        tmp[i] = [];
+        for (var j = 0; j < (fieldX / resolution); j++) {
+            tmp[i][j] = 0;
+        }
     }
 
     return tmp;
