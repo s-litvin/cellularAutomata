@@ -1,13 +1,10 @@
 var population = [];
 var nextPop = [];
-var frame = 0;
 var fieldX = 600;
 var fieldY = 400;
 var liveCells = 0;
-var slider;
-var randomRate = 0;
-var randomLifeCnt = 0;
 var resolution = 5;
+var targetFrameRate = 80;
 
 
 function setup() {
@@ -32,10 +29,6 @@ function setup() {
     button.position(410, 425);
     button.mousePressed(setGlider);
 
-    slider = createSlider(0, 100, randomRate);
-    slider.position(120, 420);
-    slider.style('width', '120px');
-
     //
     slider4 = createSlider(0, 50, 47);
     slider4.position(280, 420);
@@ -56,26 +49,19 @@ function setup() {
     slider3.style('width', '49px');
     slider3.style('rotate', -90);
 
-
 }
 
 function draw() {
 
-    frame++;
-    if (frame < 50 - slider4.value()) {
-        return true;
-    }
-    frame = 0;
+    targetFrameRate = map(slider4.value(), 0, 100, 0.25, 120);
+    frameRate(targetFrameRate);
 
     background(slider1.value(), slider2.value(), slider3.value());
-
-    randomRate = slider.value();
 
     renderPopulation();
 
     renderBar();
 }
-
 
 function renderBar() {
     fill(170, 170, 150);
@@ -84,8 +70,7 @@ function renderBar() {
     rect(0, 0, 600, 50);
     fill(0);
     text('Live cells: ' + String(liveCells) , 10, 20);
-    text('Random life seeds: ' + String(randomLifeCnt) , 120, 20);
-    text('Frame rate: ' , 280, 20);
+    text('Frame rate: ' + targetFrameRate.toFixed(0) , 280, 20);
     pop();
 }
 
@@ -139,10 +124,6 @@ function renderPopulation() {
                 nextPop[i][j] = 1;
             } else if (cell == 1 && (neighbors < 2 || neighbors > 3)) {
                 nextPop[i][j] = 0;
-            } else if (cell == 0 && neighbors == 0 && floor(random(map(randomRate, 0, 100, 0, 1000))) == 1) {
-                randomLifeCnt++;
-                randomLife(population, j, i);
-                nextPop[i][j] = cell;
             } else {
                 nextPop[i][j] = cell;
             }
