@@ -7,4 +7,4 @@ A cellular automaton consists of a regular grid of cells, each in one of a finit
 ### DEMO
 https://s-litvin.github.io/cellularAutomata/
 
-![game of life by s-litvin](https://raw.githubusercontent.com/s-litvin/cellularAutomata/master/preview.png)
+![game of life by s-litvin](https://raw.githubusercontent.com/s-litvin/cellularAutomata/gh-pages/preview.png)
